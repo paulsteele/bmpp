@@ -1,4 +1,5 @@
 FROM node:11-alpine as base
+USER root
 WORKDIR /bmpp
 
 COPY package.json .
