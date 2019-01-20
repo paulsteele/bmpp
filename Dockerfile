@@ -9,7 +9,12 @@ FROM base as builder
 RUN npm install -g npm
 RUN npm install --only=production
 RUN cp -R node_modules prod_node_modules
-RUN npm install
+RUN apk --no-cache --virtual build-dependencies add \
+    python \
+    make \
+    g++ \
+    && npm install \
+    && apk del build-dependencies
 COPY . .
 RUN npm run build
 
