@@ -1,4 +1,4 @@
-FROM node:11-alpine as base
+FROM node:10-alpine as base
 WORKDIR /bmpp
 
 COPY package.json .
