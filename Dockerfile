@@ -6,6 +6,7 @@ COPY package-lock.json .
 
 ## Builder
 FROM base as builder
+RUN npm install -g npm
 RUN npm install --only=production
 RUN cp -R node_modules prod_node_modules
 RUN npm install
