@@ -8,6 +8,8 @@ FROM base as builder
 RUN npm install --only=production
 RUN cp -R node_modules prod_node_modules
 RUN rm package-lock.json
+RUN npm npm cache clean --force
+RUN ls
 RUN npm install
 COPY . .
 RUN npm run build
