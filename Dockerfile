@@ -3,7 +3,7 @@ USER root
 WORKDIR /bmpp
 
 COPY package.json .
-COPY package-lock.json .
+COPY .npmrc .
 
 ## Builder
 FROM base as builder
