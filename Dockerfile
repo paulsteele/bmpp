@@ -1,4 +1,4 @@
-FROM node:8-alpine as base
+FROM node:11-alpine as base
 WORKDIR /bmpp
 
 COPY package.json .
@@ -7,6 +7,7 @@ COPY package.json .
 FROM base as builder
 RUN npm install --only=production
 RUN cp -R node_modules prod_node_modules
+RUN rm package-lock.json
 RUN npm install
 COPY . .
 RUN npm run build
