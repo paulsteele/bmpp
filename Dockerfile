@@ -1,4 +1,4 @@
-FROM node:11-slim as base
+FROM node:11 as base
 WORKDIR /bmpp
 
 COPY package.json .
