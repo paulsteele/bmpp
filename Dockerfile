@@ -11,6 +11,7 @@ RUN cp -R node_modules prod_node_modules
 RUN npm cache clean --force
 RUN rm package-lock.json
 RUN rm -rf node_modules
+RUN npm install typescript
 RUN npm install
 COPY . .
 RUN npm run build
