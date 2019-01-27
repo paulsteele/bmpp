@@ -6,15 +6,14 @@ COPY package-lock.json .
 
 ## Builder
 FROM base as builder
-RUN npm install -g npm
+# Fix bug https://github.com/npm/npm/issues/9863
+RUN cd $(npm root -g)/npm \
+  && npm install fs-extra \
+  && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.
+  
 RUN npm install --only=production
 RUN cp -R node_modules prod_node_modules
-RUN apk --no-cache --virtual build-dependencies add \
-    python \
-    make \
-    g++ \
-    && npm install \
-    && apk del build-dependencies
+RUN npm install
 COPY . .
 RUN npm run build
 
