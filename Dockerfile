@@ -1,14 +1,15 @@
-FROM node:11-alpine as base
+FROM node:12-alpine as base
 WORKDIR /bmpp
 
+RUN npm cache clean --force
+RUN npm i npm@4.6.1 -g
 COPY package.json .
 
 ## Builder
 FROM base as builder
 
 RUN npm install --only=production
-RUN cp -R node_modules prod_node_modules
-RUN npm install typescript
+RUN cp -r node_modules prod_node_modules
 RUN npm install
 COPY . .
 RUN npm run build
