@@ -1,27 +1,26 @@
 FROM node:12-alpine as base
 WORKDIR /bmpp
 
-RUN npm cache clean --force
-RUN npm i npm@4.6.1 -g
+RUN apk add --update yarn
 COPY package.json .
 
 ## Builder
 FROM base as builder
 
-RUN npm install --only=production
+RUN yarn install --production
 RUN cp -r node_modules prod_node_modules
-RUN npm install
+RUN yarn install
 COPY . .
-RUN npm run build
+RUN yarn run build
 
 # Test Image
 FROM builder as test
-RUN npm run lint
-RUN npm run test
+RUN yarn run lint
+RUN yarn run test
 
 # Release
 FROM base as release
 COPY --from=builder /bmpp/prod_node_modules ./node_modules
 COPY --from=builder /bmpp/dist ./dist
 
-ENTRYPOINT [ "npm", "run" , "serve" ]
+ENTRYPOINT [ "yarn", "run" , "serve" ]
